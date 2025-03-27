@@ -31,19 +31,19 @@ jobs:
           path: staging
           retention-days: 1
 
-      - name: Create a Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-            GITHUB_TOKEN: ${GITHUB_TOKEN}
-        with:
-          release_name: 'release1'
-          tag_name: 'tag1'
-
-      #- uses: marvinpinto/action-automatic-releases@latest
+      #- name: Create a Release
+      #  id: create_release
+      #  uses: actions/create-release@v1
+      #  env:
+      #      GITHUB_TOKEN: ${GITHUB_TOKEN}
       #  with:
-      #    repo_token: ${{ secrets.GITHUB_TOKEN }}
-      #    automatic_release_tag: "${{ github.run_number }}"
-      #    title: "Automated Build ${{ github.run_number }}"
-      #    prerelease: true
-      #    files: staging/*.jar
+      #    release_name: 'release1'
+      #    tag_name: 'tag1'
+
+      - uses: marvinpinto/action-automatic-releases@latest
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          automatic_release_tag: "${{ github.run_number }}"
+          title: "Automated Build ${{ github.run_number }}"
+          prerelease: true
+          files: staging/*.jar
