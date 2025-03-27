@@ -19,6 +19,10 @@ jobs:
           distribution: 'temurin'
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@af1da67850ed9a4cedd57bfd976089dd991e2582 # v4.0.0
+
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
+
       - run: ./gradlew clean build jar
       - run: mkdir staging && mv build/libs/JavaCITest-1.0-SNAPSHOT.jar build/libs/JavaCITest-${{ env.build-number }}.jar && cp build/libs/*.jar staging
       - uses: actions/upload-artifact@v4
