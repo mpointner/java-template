@@ -35,7 +35,7 @@ jobs:
         id: create_release
         uses: actions/create-release@v1
         env:
-            GITHUB_TOKEN: ${{ github.token }}
+            GITHUB_TOKEN: ${GITHUB_TOKEN}
         with:
           release_name: 'release1'
           tag_name: 'tag1'
