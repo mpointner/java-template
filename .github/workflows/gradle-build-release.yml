@@ -2,8 +2,6 @@ name: Java CI to create and upload release on pull request
 on:
   push:
     branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
 
 env:
   build-number: ${GITHUB_RUN_NUMBER}
@@ -33,7 +31,7 @@ jobs:
 
       - uses: marvinpinto/action-automatic-releases@latest
         with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          repo_token: ${{ secrets.GITHUB_TOKEN }} # Settings -> Actions -> General -> Workflow permissions -> Read and write permissions
           automatic_release_tag: "${{ github.run_number }}"
           title: "Automated Build ${{ github.run_number }}"
           prerelease: true
