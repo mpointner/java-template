@@ -19,7 +19,7 @@ jobs:
           distribution: 'temurin'
       - run: ./gradlew clean build jar
       - run: mkdir staging && mv build/libs/JavaCITest-1.0-SNAPSHOT.jar build/libs/JavaCITest-${{ env.build-number }}.jar && cp build/libs/*.jar staging
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: Package
           path: staging
