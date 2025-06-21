@@ -24,7 +24,7 @@ jobs:
       - name: Build jar
         run: ./gradlew clean build jar
 
-      - run: mv build/libs/*.jar build/libs/$GITHUB_REPOSITORY-$GITHUB_REF_NAME.jar
+      - run: mv build/libs/*.jar build/libs/${GITHUB_REPOSITORY//\//_}-$GITHUB_REF_NAME.jar
 
       - run: echo $GITHUB_REPOSITORY-$GITHUB_REF_NAME
 
