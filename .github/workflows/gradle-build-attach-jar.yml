@@ -26,14 +26,9 @@ jobs:
 
       - run: mv build/libs/*.jar build/libs/$GITHUB_REF_NAME.jar
 
-      - name: Upload to release
-        uses: JasonEtco/upload-to-release@master
-        with:
-          args: build/libs/$GITHUB_REF_NAME.jar
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - run: echo $GITHUB_REF_NAME
 
-      #- uses: AButler/upload-release-assets@v3.0
-      #  with:
-      #    files: "build/libs/*.jar"
-      #    repo-token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: AButler/upload-release-assets@v3.0
+        with:
+          files: "build/libs/*.jar"
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
