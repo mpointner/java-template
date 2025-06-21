@@ -30,8 +30,8 @@ jobs:
         uses: JasonEtco/upload-to-release@master
         with:
           args: build/libs/$GITHUB_REF_NAME.jar
-          env:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       #- uses: AButler/upload-release-assets@v3.0
       #  with:
