@@ -1,7 +1,7 @@
 package at.ac.tgm.model.items;
 
 public abstract class BaseGameItemModel {
-    protected int layer;
+    protected final int layer;
     protected int row;
     protected int col;
     
