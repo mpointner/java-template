@@ -1,4 +1,4 @@
-name: Java CI to create and upload jar to release
+name: Build and upload JAR to release
 on:
   release:
     types: [created]
@@ -9,19 +9,25 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
       - name: Setup JDK
         uses: actions/setup-java@v4
         with:
           java-version: '21'
           distribution: 'temurin'
+
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@af1da67850ed9a4cedd57bfd976089dd991e2582 # v4.0.0
+
       - name: Make gradlew executable
         run: chmod +x ./gradlew
+
       - name: Build jar
-        run: ./gradlew clean build jar
+        run: ./gradlew build jar
+
       - name: Rename jar
         run: mv build/libs/*.jar build/libs/${GITHUB_REPOSITORY//\//_}-$GITHUB_REF_NAME.jar
+
       - name: Upload to release
         uses: AButler/upload-release-assets@v3.0
         with:
