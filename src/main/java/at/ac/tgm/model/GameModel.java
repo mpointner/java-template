@@ -6,8 +6,8 @@ import at.ac.tgm.model.items.HamsterModel;
 public class GameModel {
     private final int rowsGrid;
     private final int colsGrid;
-    private HamsterModel hamster = null;
-    private CornModel[][] corns = null;
+    private HamsterModel hamster;
+    private CornModel[][] corns;
     
     public GameModel(int rowsGrid, int colsGrid) {
         if (rowsGrid < 1 || colsGrid < 1) {
@@ -27,11 +27,11 @@ public class GameModel {
         }
     }
     
-    public void createCorn(int row, int col, int anzahl) {
+    public void createCorn(int row, int col, int amount) {
         if (corns[row][col] == null) {
-            corns[row][col] = new CornModel(row, col, anzahl);
+            corns[row][col] = new CornModel(row, col, amount);
         } else {
-            corns[row][col].setAmount(anzahl);
+            corns[row][col].setAmount(amount);
         }
     }
     

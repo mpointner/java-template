@@ -10,8 +10,8 @@ import javax.swing.*;
 import java.awt.event.*;
 
 public class GameController implements MouseListener, ActionListener, KeyListener {
-    private GameWindow view;
-    private GameModel model;
+    private final GameWindow view;
+    private final GameModel model;
     
     private String lastButtonClickedActionCommand = null;
     
@@ -75,8 +75,7 @@ public class GameController implements MouseListener, ActionListener, KeyListene
     
     @Override
     public void mouseClicked(MouseEvent e) {
-        if (e.getSource() instanceof CellPane) {
-            CellPane cellPanel = (CellPane) e.getSource();
+        if (e.getSource() instanceof CellPane cellPanel) {
             int row = cellPanel.getRow();
             int col = cellPanel.getCol();
             System.out.println("mouseClicked Cell " + row + " " + col);
@@ -118,22 +117,22 @@ public class GameController implements MouseListener, ActionListener, KeyListene
     
     private int getCornAmount() {
         boolean valid = false;
-        int anzahl = 0;
+        int amount = 0;
         while (!valid) {
             String eingabe = JOptionPane.showInputDialog("Wie viele Körner sollen positioniert werden?");
             try {
-                anzahl = Integer.parseInt(eingabe);
-                if (anzahl < 1) {
+                amount = Integer.parseInt(eingabe);
+                if (amount < 1) {
                     JOptionPane.showMessageDialog(null, "Bitte eine Zahl >= 1 eingeben!", "Ungültige Eingabe", JOptionPane.ERROR_MESSAGE);
                 }
             } catch (NumberFormatException ex) {
                 view.setMessage("Bitte eine Zahl eingaben");
                 JOptionPane.showMessageDialog(null, "Bitte eine Zahl eingeben!", "Ungültige Eingabe", JOptionPane.ERROR_MESSAGE);
             }
-            if (anzahl >= 1){
+            if (amount >= 1){
                 valid = true;
             }
         }
-        return anzahl;
+        return amount;
     }
 }

@@ -21,7 +21,7 @@ public class CornPanel extends BaseGameItemPanel {
     private static final Image corn11 = loadImage("11Corn32.png");
     private static final Image corn12 = loadImage("12Corn32.png");
     
-    private CornModel model;
+    private final CornModel model;
     
     public CornPanel(CornModel model, GameController controller) {
         super(controller);
@@ -43,7 +43,6 @@ public class CornPanel extends BaseGameItemPanel {
             case 9 -> corn9;
             case 10 -> corn10;
             case 11 -> corn11;
-            case 12 -> corn12;
             default -> corn12;
         };
         g.drawImage(image, 0, 0, this);

@@ -5,9 +5,9 @@ import at.ac.tgm.consts.Layer;
 public class CornModel extends BaseGameItemModel {
     private int amount;
     
-    public CornModel(int row, int col, int anzahl) {
+    public CornModel(int row, int col, int amount) {
         super(Layer.CORN, row, col);
-        setAmount(anzahl);
+        setAmount(amount);
     }
     
     public void setAmount(int amount) {

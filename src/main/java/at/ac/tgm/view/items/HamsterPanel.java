@@ -14,7 +14,7 @@ public class HamsterPanel extends BaseGameItemPanel {
     private static final Image imageNorth = loadImage("hamsternorth.png");
     private static final Image imageSouth = loadImage("hamstersouth.png");
     
-    private HamsterModel model;
+    private final HamsterModel model;
     
     public HamsterPanel(HamsterModel model, GameController controller) {
         super(controller);

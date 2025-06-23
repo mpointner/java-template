@@ -16,7 +16,6 @@ public class GameWindow extends JFrame {
     private final GameController controller;
     private JLabel messageLabel;
     private JPanel wrapper;
-    private JScrollPane scrollPane;
     private JPanel grid;
     private CellPane[][] cell;
     
@@ -76,7 +75,7 @@ public class GameWindow extends JFrame {
         wrapper.addKeyListener(controller);
         addGrid();
         
-        scrollPane = new JScrollPane(wrapper);
+        JScrollPane scrollPane = new JScrollPane(wrapper);
         scrollPane.addKeyListener(controller);
         add(scrollPane, BorderLayout.CENTER);
     }
@@ -87,7 +86,6 @@ public class GameWindow extends JFrame {
         int rows = controller.getModel().getRowsGrid(), cols = controller.getModel().getColsGrid();
         grid.setLayout(new GridLayout(rows, cols));
         grid.setPreferredSize(new Dimension(iconSize * cols, iconSize * rows));
-        boolean check = false;
         cell = new CellPane[rows][cols];
         for (int row = 0; row < rows; row++) {
             //cell[i] = new CellPanel[cols];

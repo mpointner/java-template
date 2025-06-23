@@ -32,7 +32,7 @@ public class ImageUtil {
         if (!resourcePath.startsWith("/")) {
             resourcePath = "/" + resourcePath;
         }
-        BufferedImage originalImage = null;
+        BufferedImage originalImage;
         try {
             originalImage = ImageIO.read(
                     Objects.requireNonNull(GameWindow.class.getResource(resourcePath))
