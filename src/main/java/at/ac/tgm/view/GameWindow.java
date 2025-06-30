@@ -1,16 +1,16 @@
 package at.ac.tgm.view;
 
 import at.ac.tgm.controller.GameController;
-import at.ac.tgm.model.items.CornModel;
-import at.ac.tgm.model.items.BaseGameItemModel;
 import at.ac.tgm.model.GameModel;
+import at.ac.tgm.model.items.BaseGameItemModel;
+import at.ac.tgm.model.items.CornModel;
 
 import javax.swing.*;
 import java.awt.*;
 
 import static at.ac.tgm.consts.Settings.buttonSize;
 import static at.ac.tgm.consts.Settings.iconSize;
-import static at.ac.tgm.view.util.ImageUtil.*;
+import static at.ac.tgm.view.util.ImageUtil.loadIcon;
 
 public class GameWindow extends JFrame {
     private final GameController controller;
@@ -22,7 +22,7 @@ public class GameWindow extends JFrame {
     public GameWindow(GameController controller) {
         this.controller = controller;
         GameModel model = controller.getModel();
-        setTitle("Hamster-Spiel");
+        setTitle("Hamster Game");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
         setMinimumSize(new Dimension(300, 300));
@@ -31,23 +31,26 @@ public class GameWindow extends JFrame {
         addScrollPane();
         addMessageBar();
         
+        drawGame(model);
+        
         setFocusable(true);
         addKeyListener(controller);
         setIconImage(Toolkit.getDefaultToolkit().getImage(GameWindow.class.getResource("/info.gif")));
         pack();
-        setSize(Math.max(model.getColsGrid() * iconSize + 20, 200), model.getRowsGrid() * iconSize + 95);
         setVisible(true);
     }
     
     private void addMenuBar() {
         JMenuBar menuBar = new JMenuBar();
-        menuBar.add(newButton("positionHamster", "hamstereast.png", "Hamster positionieren"));
-        menuBar.add(newButton("addCorn", "corn24.gif", "Korn hinzufügen"));
+        menuBar.add(newButton("newGrid", "Terrain24.gif", "New Grid"));
+        menuBar.add(newButton("positionHamster", "hamstereast.png", "Position Hamster"));
+        menuBar.add(newButton("addCorn", "corn24.gif", "Add Corn"));
+        menuBar.add(newButton("deleteGameItem", "Delete24.gif", "Delete Item"));
         this.setJMenuBar(menuBar);
     }
     
     private void addMessageBar() {
-        messageLabel = new JLabel("Willkommen im Hamster-Spiel!");
+        messageLabel = new JLabel("Welcome to the Hamster-Game!");
         messageLabel.setHorizontalAlignment(SwingConstants.CENTER);
         messageLabel.setVerticalAlignment(SwingConstants.CENTER);
         messageLabel.setBorder(null);
@@ -73,52 +76,61 @@ public class GameWindow extends JFrame {
     private void addScrollPane() {
         wrapper = new JPanel(new GridBagLayout());
         wrapper.addKeyListener(controller);
-        addGrid();
+        createGrid();
         
         JScrollPane scrollPane = new JScrollPane(wrapper);
         scrollPane.addKeyListener(controller);
         add(scrollPane, BorderLayout.CENTER);
     }
     
-    private void addGrid() {
+    /**
+     * Adds or resizes the grid view
+     */
+    private void createGrid() {
+        int rows = controller.getModel().getRowsGrid();
+        int cols = controller.getModel().getColsGrid();
+        
         grid = new JPanel();
         grid.addKeyListener(controller);
-        int rows = controller.getModel().getRowsGrid(), cols = controller.getModel().getColsGrid();
         grid.setLayout(new GridLayout(rows, cols));
         grid.setPreferredSize(new Dimension(iconSize * cols, iconSize * rows));
         cell = new CellPane[rows][cols];
         for (int row = 0; row < rows; row++) {
-            //cell[i] = new CellPanel[cols];
             for (int col = 0; col < cols; col++) {
                 CellPane cellPane = new CellPane(controller, row, col);
                 grid.add(cellPane);
                 cell[row][col] = cellPane;
             }
         }
-        drawGame(controller.getModel());
+        wrapper.removeAll();
         wrapper.add(grid);
+        
+        setSize(Math.max(cols * iconSize + 20, 200), rows * iconSize + 95);
     }
     
-    public void drawGame(GameModel gameModel) {
+    public void drawGame(GameModel model) {
+        if (model.getRowsGrid() != cell.length || model.getColsGrid() != cell[0].length) {
+            createGrid();
+        }
         // Clear
         for (int row = 0; row < cell.length; row++) {
             for (int col = 0; col < cell[row].length; col++) {
                 cell[row][col].removeAll();
             }
         }
-        drawGameItem(gameModel.getHamster());
-        CornModel[][] corns = gameModel.getCorns();
+        drawGameItem(model.getHamster());
+        CornModel[][] corns = model.getCorns();
         for (int row = 0; row < cell.length; row++) {
             for (int col = 0; col < cell[row].length; col++) {
-                if (corns[row][col] != null) {
-                    drawGameItem(corns[row][col]);
-                }
+                drawGameItem(corns[row][col]);
             }
         }
         grid.repaint();
     }
     
     private void drawGameItem(BaseGameItemModel model) {
-        this.cell[model.getRow()][model.getCol()].drawGameItem(model);
+        if (model != null) {
+            this.cell[model.getRow()][model.getCol()].drawGameItem(model);
+        }
     }
 }

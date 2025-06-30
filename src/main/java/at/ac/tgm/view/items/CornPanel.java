@@ -1,6 +1,7 @@
 package at.ac.tgm.view.items;
 
 import at.ac.tgm.controller.GameController;
+import at.ac.tgm.model.items.BaseGameItemModel;
 import at.ac.tgm.model.items.CornModel;
 
 import java.awt.*;
@@ -23,7 +24,7 @@ public class CornPanel extends BaseGameItemPanel {
     
     private final CornModel model;
     
-    public CornPanel(CornModel model, GameController controller) {
+    public CornPanel(GameController controller, CornModel model) {
         super(controller);
         this.model = model;
     }
@@ -46,5 +47,10 @@ public class CornPanel extends BaseGameItemPanel {
             default -> corn12;
         };
         g.drawImage(image, 0, 0, this);
+    }
+    
+    @Override
+    public BaseGameItemModel getModel() {
+        return model;
     }
 }

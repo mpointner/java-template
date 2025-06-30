@@ -43,10 +43,10 @@ public class CellPane extends JLayeredPane {
         BaseGameItemPanel gameItemView = null;
         int layer = model.getLayer();
         if (model instanceof HamsterModel) {
-            gameItemView = new HamsterPanel((HamsterModel) model, controller);
+            gameItemView = new HamsterPanel(controller, (HamsterModel) model);
         }
         if (model instanceof CornModel) {
-            gameItemView = new CornPanel((CornModel) model, controller);
+            gameItemView = new CornPanel(controller, (CornModel) model);
         }
         if (gameItemView != null) {
             add(gameItemView, Integer.valueOf(layer));

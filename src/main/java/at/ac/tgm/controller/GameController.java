@@ -2,16 +2,22 @@ package at.ac.tgm.controller;
 
 import at.ac.tgm.exceptions.InvalidMoveException;
 import at.ac.tgm.model.GameModel;
+import at.ac.tgm.model.items.BaseGameItemModel;
+import at.ac.tgm.model.items.CornModel;
 import at.ac.tgm.model.items.HamsterModel;
 import at.ac.tgm.view.CellPane;
 import at.ac.tgm.view.GameWindow;
+import at.ac.tgm.view.items.BaseGameItemPanel;
 
-import javax.swing.*;
+import java.awt.*;
 import java.awt.event.*;
+import java.util.NoSuchElementException;
+
+import static at.ac.tgm.view.util.InputUtil.getIntInput;
 
 public class GameController implements MouseListener, ActionListener, KeyListener {
     private final GameWindow view;
-    private final GameModel model;
+    private GameModel model;
     
     private String lastButtonClickedActionCommand = null;
     
@@ -29,11 +35,24 @@ public class GameController implements MouseListener, ActionListener, KeyListene
         System.out.println("actionPerformed " + e.getActionCommand());
         lastButtonClickedActionCommand = e.getActionCommand();
         switch (e.getActionCommand()) {
+            case "newGrid":
+                try {
+                    int width = getIntInput("Width:", 1, 40);
+                    int height = getIntInput("Height:", 1, 40);
+                    model = new GameModel(height, width);
+                    view.drawGame(model);
+                } catch (NoSuchElementException ex) {
+                    view.setMessage(ex.getMessage());
+                }
+                break;
             case "positionHamster":
-                view.setMessage("Klicke auf ein Feld des Spielfelds um den Hamster zu positionieren");
+                view.setMessage("Click on a field on the playing field to position the hamster");
                 break;
             case "addCorn":
-                view.setMessage("Klicke auf ein Feld des Spielfelds um die Körner zu positionieren");
+                view.setMessage("Click on a field of the playing field to position the grains");
+                break;
+            case "deleteGameItem":
+                view.setMessage("Click on a field of the playing field to delete a game item");
                 break;
         }
     }
@@ -53,15 +72,17 @@ public class GameController implements MouseListener, ActionListener, KeyListene
         System.out.println("keyReleased char: " + e.getKeyChar() + " code: " + e.getKeyCode());
         HamsterModel hamster = model.getHamster();
         if (hamster == null) {
-            view.setMessage("Du musst zuerst den Hamster platzieren");
+            view.setMessage("You have to place the hamster first");
             return;
         }
         try {
             switch (e.getKeyCode()) {
                 case KeyEvent.VK_UP:
+                case KeyEvent.VK_W:
                     hamster.moveForward();
                     break;
                 case KeyEvent.VK_LEFT:
+                case KeyEvent.VK_A:
                     hamster.rotateLeft();
                     break;
                 default:
@@ -87,7 +108,20 @@ public class GameController implements MouseListener, ActionListener, KeyListene
                     model.createHamster(row, col);
                     break;
                 case "addCorn":
-                    model.createCorn(row, col, getCornAmount());
+                    int cornAmount = getIntInput("How many Corn should be positioned?", 1);
+                    model.createCorn(row, col, cornAmount);
+                    break;
+                case "deleteGameItem":
+                    Component[] components = cellPanel.getComponents();
+                    if (components.length > 0) {
+                        BaseGameItemPanel component = (BaseGameItemPanel) components[0];
+                        BaseGameItemModel componentModel = component.getModel();
+                        if (componentModel instanceof HamsterModel) {
+                            model.removeHamster();
+                        } else if (componentModel instanceof CornModel) {
+                            model.removeCorn(componentModel.getRow(), componentModel.getCol());
+                        }
+                    }
                     break;
             }
             view.setMessage("");
@@ -115,24 +149,5 @@ public class GameController implements MouseListener, ActionListener, KeyListene
         //System.out.println("mouseExited " + e.getButton());
     }
     
-    private int getCornAmount() {
-        boolean valid = false;
-        int amount = 0;
-        while (!valid) {
-            String eingabe = JOptionPane.showInputDialog("Wie viele Körner sollen positioniert werden?");
-            try {
-                amount = Integer.parseInt(eingabe);
-                if (amount < 1) {
-                    JOptionPane.showMessageDialog(null, "Bitte eine Zahl >= 1 eingeben!", "Ungültige Eingabe", JOptionPane.ERROR_MESSAGE);
-                }
-            } catch (NumberFormatException ex) {
-                view.setMessage("Bitte eine Zahl eingaben");
-                JOptionPane.showMessageDialog(null, "Bitte eine Zahl eingeben!", "Ungültige Eingabe", JOptionPane.ERROR_MESSAGE);
-            }
-            if (amount >= 1){
-                valid = true;
-            }
-        }
-        return amount;
-    }
+    
 }

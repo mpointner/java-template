@@ -2,6 +2,7 @@ package at.ac.tgm.view.items;
 
 import at.ac.tgm.consts.Direction;
 import at.ac.tgm.controller.GameController;
+import at.ac.tgm.model.items.BaseGameItemModel;
 import at.ac.tgm.model.items.HamsterModel;
 
 import java.awt.*;
@@ -16,7 +17,7 @@ public class HamsterPanel extends BaseGameItemPanel {
     
     private final HamsterModel model;
     
-    public HamsterPanel(HamsterModel model, GameController controller) {
+    public HamsterPanel(GameController controller, HamsterModel model) {
         super(controller);
         this.model = model;
     }
@@ -32,5 +33,10 @@ public class HamsterPanel extends BaseGameItemPanel {
             default -> throw new IllegalStateException("Unexpected value: " + model.getDirection());
         };
         g.drawImage(image, 0, 0, this);
+    }
+    
+    @Override
+    public BaseGameItemModel getModel() {
+        return model;
     }
 }

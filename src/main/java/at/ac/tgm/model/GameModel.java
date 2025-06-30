@@ -27,12 +27,20 @@ public class GameModel {
         }
     }
     
+    public void removeHamster() {
+        hamster = null;
+    }
+    
     public void createCorn(int row, int col, int amount) {
         if (corns[row][col] == null) {
             corns[row][col] = new CornModel(row, col, amount);
         } else {
             corns[row][col].setAmount(amount);
         }
+    }
+    
+    public void removeCorn(int row, int col) {
+        corns[row][col] = null;
     }
     
     public HamsterModel getHamster() {
