@@ -1,4 +1,4 @@
-name: Verify project is building (Code compiling and tests running through)
+name: Pull Request Action
 
 on:
   pull_request:
@@ -6,6 +6,7 @@ on:
 
 jobs:
   build:
+    name: Verify code compiling and tests running through (CI)
     runs-on: ubuntu-latest
     permissions:
       contents: read

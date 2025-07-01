@@ -1,10 +1,11 @@
-name: Build and upload JAR to release
+name: Release Action
 on:
   release:
     types: [created]
 
 jobs:
   build:
+    name: Build and upload JAR to release (CD)
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
