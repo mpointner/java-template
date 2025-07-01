@@ -26,5 +26,8 @@ jobs:
       - name: Make gradlew executable
         run: chmod +x ./gradlew
 
-      - name: Build and test with Gradle Wrapper
-        run: ./gradlew build test
+      - name: Build project
+        run: ./gradlew build
+
+      - name: Run tests
+        run: ./gradlew test

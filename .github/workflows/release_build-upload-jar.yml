@@ -22,13 +22,16 @@ jobs:
       - name: Make gradlew executable
         run: chmod +x ./gradlew
 
-      - name: Build jar
-        run: ./gradlew build jar
+      - name: Build project
+        run: ./gradlew build
 
-      - name: Rename jar
+      - name: Create JAR
+        run: ./gradlew jar
+
+      - name: Rename JAR
         run: mv build/libs/*.jar build/libs/${GITHUB_REPOSITORY//\//_}-$GITHUB_REF_NAME.jar
 
-      - name: Upload to release
+      - name: Upload JAR to release
         uses: AButler/upload-release-assets@v3.0
         with:
           files: "build/libs/*.jar"
