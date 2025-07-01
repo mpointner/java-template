@@ -38,7 +38,7 @@ public class HamsterModel extends BaseGameItemModel {
         int newRow = row + diff_row;
         int newCol = col + diff_col;
         if (newRow < 0 || newRow >= rowsGrid || newCol < 0 || newCol >= colsGrid) {
-            throw new InvalidMoveException("Hamster kann nicht das Spielfeld verlassen");
+            throw new InvalidMoveException("Hamster cannot leave the playing field");
         }
         row = newRow;
         col = newCol;
