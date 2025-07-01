@@ -1,4 +1,4 @@
-name: Verify project is building and tests running through
+name: Verify project is building (Code compiling and tests running through)
 
 on:
   pull_request:
@@ -26,8 +26,5 @@ jobs:
       - name: Make gradlew executable
         run: chmod +x ./gradlew
 
-      - name: Build project
-        run: ./gradlew build
-
-      - name: Run tests
-        run: ./gradlew test
+      - name: Build project (Compile and test code)
+        run: ./gradlew build -x jar # Jar not needed in the CI, will be build in the CD
