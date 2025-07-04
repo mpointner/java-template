@@ -1,0 +1,46 @@
+name: Set Branch Protection
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+  actions: write
+  pull-requests: write
+  repository-projects: read
+  admin: write
+
+jobs:
+  protect:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set branch protection
+        uses: octokit/request-action@v2.x
+        with:
+          route: PUT /repos/${{ github.repository }}/branches/main/protection
+          mediaType: '{"previews": ["luke-cage"]}'
+          headers: '{"Accept": "application/vnd.github.v3+json"}'
+          body: |
+            {
+              "required_status_checks": {
+                "strict": false,
+                "contexts": [
+                  "Verify code compiling and tests running through (CI)"
+                ]
+              },
+              "enforce_admins": true,
+              "required_pull_request_reviews": {
+                "dismiss_stale_reviews": false,
+                "require_code_owner_reviews": false,
+                "required_approving_review_count": 1,
+                "require_last_push_approval": false
+              },
+              "restrictions": null,
+              "allow_deletions": false,
+              "allow_force_pushes": false,
+              "required_linear_history": true
+            }
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
