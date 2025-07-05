@@ -1,7 +1,10 @@
 name: Apply Branch Protection Rules
 
 on:
-  workflow_dispatch: # or push, or repository_dispatch if automating after creation
+  push:
+    branches:
+      - main
+  #workflow_dispatch: # or push, or repository_dispatch if automating after creation
 
 permissions:
   contents: write
