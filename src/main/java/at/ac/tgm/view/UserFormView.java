@@ -9,16 +9,14 @@ import javax.swing.*;
 import java.awt.*;
 
 public class UserFormView extends JDialog {
-    private JTextField firstNameField, lastNameField, emailField;
-    private JButton saveButton, cancelButton;
-    private boolean saved = false;
+    private final JTextField firstNameField, lastNameField, emailField;
     
     public UserFormView(JFrame parent, User user, UserController controller) {
         super(parent, (user == null ? "Add" : "Edit") + " User", true);
         setSize(300, 200);
         setLayout(new GridLayout(4, 2, 10, 5));
         setLocationRelativeTo(parent);
-        setIconImage(FontIcon.of(user != null ? FontAwesomeSolid.USER_EDIT : FontAwesomeSolid.USER_PLUS, 16).toImageIcon().getImage());
+        setIconImage(FontIcon.of(user == null ? FontAwesomeSolid.USER_PLUS : FontAwesomeSolid.USER_EDIT, 16).toImageIcon().getImage());
         
         firstNameField = new JTextField();
         lastNameField = new JTextField();
@@ -37,8 +35,8 @@ public class UserFormView extends JDialog {
         add(new JLabel("Email:"));
         add(emailField);
         
-        saveButton = new JButton("Save", FontIcon.of(FontAwesomeSolid.SAVE, 16));
-        cancelButton = new JButton("Cancel", FontIcon.of(FontAwesomeSolid.BAN, 16));
+        JButton saveButton = new JButton("Save", FontIcon.of(FontAwesomeSolid.SAVE, 16));
+        JButton cancelButton = new JButton("Cancel", FontIcon.of(FontAwesomeSolid.BAN, 16));
         
         add(saveButton);
         add(cancelButton);
