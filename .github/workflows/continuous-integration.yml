@@ -3,6 +3,7 @@ name: Continuous Integration (CI)
 on:
   pull_request:
     branches: [ "main" ]
+  workflow_dispatch: # Manual trigger fallback
 
 jobs:
   build-and-test:
