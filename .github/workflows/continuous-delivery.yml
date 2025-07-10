@@ -1,7 +1,8 @@
 name: Continuous Delivery (CD)
 on:
   release:
-    types: [created]
+    types: [created] # Triggers when a release is created (only if not a draft)
+  workflow_dispatch: # Manual trigger fallback
 
 jobs:
   build-jar-and-upload-release:
