@@ -1,11 +1,11 @@
-name: Release Action
+name: Continuous Delivery (CD)
 on:
   release:
     types: [created]
 
 jobs:
-  build:
-    name: Build and upload JAR to release (CD)
+  build-jar-and-upload-release:
+    name: Build and upload JAR to release
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -16,9 +16,6 @@ jobs:
         with:
           java-version: '23'
           distribution: 'temurin'
-
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@af1da67850ed9a4cedd57bfd976089dd991e2582 # v4.0.0
 
       - name: Make gradlew executable
         run: chmod +x ./gradlew
