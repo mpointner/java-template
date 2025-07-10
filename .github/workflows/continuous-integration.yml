@@ -1,12 +1,12 @@
-name: Pull Request Action
+name: Continuous Integration (CI)
 
 on:
   pull_request:
     branches: [ "main" ]
 
 jobs:
-  build:
-    name: Verify code compiling and tests running through (CI)
+  build-and-test:
+    name: Verify code compiling and tests running through
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -20,9 +20,6 @@ jobs:
         with:
           java-version: '23'
           distribution: 'temurin'
-
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@af1da67850ed9a4cedd57bfd976089dd991e2582 # v4.0.0
 
       - name: Make gradlew executable
         run: chmod +x ./gradlew
